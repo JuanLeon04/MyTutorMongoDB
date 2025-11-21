@@ -1,0 +1,1455 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reserva",
+      "description": "EndPoints sobre Reservas"
+    },
+    {
+      "name": "Reseña",
+      "description": "EndPoints sobre las Reseñas"
+    },
+    {
+      "name": "Horario",
+      "description": "EndPoints sobre los Horarios"
+    },
+    {
+      "name": "auth",
+      "description": "Inicio de sesion y registro"
+    },
+    {
+      "name": "Tutor",
+      "description": "EndPoints sobre Tutores"
+    },
+    {
+      "name": "Usuario",
+      "description": "EndPoints sobre el Usuario"
+    }
+  ],
+  "paths": {
+    "/api/usuario": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Que el usuario se obtenga a si mismo",
+        "operationId": "obtenerMyUsuario",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Actualizar usuario",
+        "operationId": "actualizarUsuario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Usuario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Permite que un usuario se borre a si mismo SOFT DELETE",
+        "operationId": "eliminarElPropioUsuario",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tutor": {
+      "get": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Obtener mi propia información como tutor",
+        "operationId": "obtenerMiTutor",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudTutor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Actualizar mi información de tutor",
+        "operationId": "actualizarMiTutor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudTutor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolicitudTutor"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Desactivarme a mí mismo como tutor (soft delete)",
+        "operationId": "desactivarMiTutor",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/reserva/{idHorario}/no-asistio": {
+      "put": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Marcar que el estudiante no asistió a la reserva (solo tutor)",
+        "operationId": "marcarNoAsistio",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reserva/{idHorario}/completada": {
+      "put": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Marcar una reserva como completada (solo tutor)",
+        "operationId": "marcarReservaCompletada",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resena": {
+      "get": {
+        "tags": [
+          "Reseña"
+        ],
+        "summary": "Obtener las reseñas que he realizado",
+        "operationId": "obtenerMisResenas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResenasDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reseña"
+        ],
+        "summary": "Modificar una reseña hecha",
+        "operationId": "modificarResena",
+        "parameters": [
+          {
+            "name": "modificarResena",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ModificarResena"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResenasDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reseña"
+        ],
+        "summary": "Crear una reseña para un tutor después de una tutoría completada",
+        "operationId": "crearResena",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudResena"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Resena"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/horario/{idHorario}": {
+      "put": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Modificar un horario propio por su ID (solo tutor)",
+        "operationId": "modificarHorario",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudHorario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Horario"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Desactivar un horario propio (soft delete) - solo tutor",
+        "operationId": "desactivarHorario",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Registrarse como nuevo usuario",
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudRegistro"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Iniciar sesion y obtener token JWT Bearer",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tutor/crear": {
+      "post": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Convertirse en tutor (crear perfil de tutor)",
+        "operationId": "crearTutor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudTutor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tutor"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reserva/{idHorario}": {
+      "post": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Reservar un horario de tutoría",
+        "operationId": "reservarHorario",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Cancelar una reserva que hizo un usuario (Solo 1 día antes)",
+        "operationId": "cancelarReserva",
+        "parameters": [
+          {
+            "name": "idHorario",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserva"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/horario/crear": {
+      "post": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Crear un horario de tutoría (solo tutor)",
+        "operationId": "crearHorario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudHorario"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Horario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usuario/{id}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Obtener un usuario por ID (solo rol ADMIN)",
+        "operationId": "obtenerUsuarioPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Borrar usuario por ID (Solo rol ADMIN) SOFT DELETE",
+        "operationId": "eliminarUsuarioPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/usuario/list": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Listar todos los usuarios (Solo rol ADMIN)",
+        "operationId": "getUsuarios",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsuarioDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usuario/getMyRole": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Obtener mi rol",
+        "operationId": "getMyRole",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tutor/{idTutor}": {
+      "get": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Obtener información pública del tutor por ID",
+        "operationId": "obtenerTutorPorId",
+        "parameters": [
+          {
+            "name": "idTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TutorDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Desactivar un tutor por ID (solo ADMIN)",
+        "operationId": "desactivarTutorAdmin",
+        "parameters": [
+          {
+            "name": "idTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/tutor/list": {
+      "get": {
+        "tags": [
+          "Tutor"
+        ],
+        "summary": "Listar todos los tutores disponibles",
+        "operationId": "listarTutores",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TutorDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reserva": {
+      "get": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Obtener mis propias reservas",
+        "operationId": "obtenerMisReservas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Horario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reserva/list": {
+      "get": {
+        "tags": [
+          "Reserva"
+        ],
+        "summary": "Listar todas las reservas del sistema",
+        "operationId": "listarTodasLasReservas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Horario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resena/{id}": {
+      "get": {
+        "tags": [
+          "Reseña"
+        ],
+        "summary": "Obtener una reseña por id realizado",
+        "operationId": "obtenerResenaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResenasDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resena/tutor/{idTutor}": {
+      "get": {
+        "tags": [
+          "Reseña"
+        ],
+        "summary": "Obtener todas las reseñas de un tutor específico",
+        "operationId": "obtenerResenasDeTutor",
+        "parameters": [
+          {
+            "name": "idTutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Resena"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/horario/list": {
+      "get": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Obtener todos los horarios registrados (tutores + estado)",
+        "operationId": "obtenerTodosLosHorarios",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Horario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/horario/filtrar": {
+      "get": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Obtener horarios disponibles filtrados",
+        "operationId": "obtenerHorariosFiltrados",
+        "parameters": [
+          {
+            "name": "materia",
+            "in": "query",
+            "description": "Nombre de la materia a filtrar",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Matemáticas"
+          },
+          {
+            "name": "precioMin",
+            "in": "query",
+            "description": "Precio mínimo",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 20
+          },
+          {
+            "name": "precioMax",
+            "in": "query",
+            "description": "Precio máximo",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 50
+          },
+          {
+            "name": "calificacionMin",
+            "in": "query",
+            "description": "Calificación mínima",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 4
+          },
+          {
+            "name": "calificacionMax",
+            "in": "query",
+            "description": "Calificación máxima",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": 5
+          },
+          {
+            "name": "nombreTutor",
+            "in": "query",
+            "description": "Nombre del tutor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Juan Pérez"
+          },
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "description": "Fecha de inicio en formato ISO",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-11-17T23:25:00.000Z"
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "description": "Fecha de fin en formato ISO",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "2025-11-17T23:25:00.000Z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HorarioDisponibleDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/horario/disponibles": {
+      "get": {
+        "tags": [
+          "Horario"
+        ],
+        "summary": "Obtener todos los horarios DISPONIBLES",
+        "operationId": "obtenerHorariosDisponibles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HorarioDisponibleDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Materia": {
+        "required": [
+          "experiencia",
+          "nombre"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "experiencia": {
+            "maximum": 10,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Resena": {
+        "required": [
+          "autorId",
+          "fecha",
+          "idResena",
+          "puntuacion"
+        ],
+        "type": "object",
+        "properties": {
+          "idResena": {
+            "type": "string"
+          },
+          "autorId": {
+            "type": "string"
+          },
+          "puntuacion": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Tutor": {
+        "required": [
+          "activo",
+          "bio",
+          "experiencia",
+          "materias",
+          "precioHora"
+        ],
+        "type": "object",
+        "properties": {
+          "activo": {
+            "type": "boolean"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "precioHora": {
+            "type": "number",
+            "format": "double"
+          },
+          "experiencia": {
+            "type": "string"
+          },
+          "materias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Materia"
+            }
+          },
+          "califiacionPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "resenas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resena"
+            }
+          }
+        }
+      },
+      "Usuario": {
+        "required": [
+          "apellido",
+          "correo",
+          "nombre",
+          "nombreUsuario",
+          "password",
+          "rol",
+          "telefono"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "correo": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "ESTUDIANTE",
+              "TUTOR",
+              "ADMIN"
+            ]
+          },
+          "tutor": {
+            "$ref": "#/components/schemas/Tutor"
+          }
+        }
+      },
+      "UsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "rol": {
+            "type": "string",
+            "enum": [
+              "ESTUDIANTE",
+              "TUTOR",
+              "ADMIN"
+            ]
+          }
+        }
+      },
+      "SolicitudTutor": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string"
+          },
+          "precioHora": {
+            "type": "number",
+            "format": "double"
+          },
+          "experiencia": {
+            "type": "string"
+          },
+          "materias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Materia"
+            }
+          }
+        }
+      },
+      "Reserva": {
+        "required": [
+          "estado",
+          "fecha",
+          "idUsuario"
+        ],
+        "type": "object",
+        "properties": {
+          "idUsuario": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "PENDIENTE",
+              "CANCELADA",
+              "COMPLETADA",
+              "NO_ASISTIO",
+              "ESPERANDO_ACCION_TUTOR"
+            ]
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ModificarResena": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "puntuacion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string"
+          }
+        }
+      },
+      "ResenasDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idTutor": {
+            "type": "string"
+          },
+          "tutorNombreApellido": {
+            "type": "string"
+          },
+          "puntuacion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string"
+          }
+        }
+      },
+      "SolicitudHorario": {
+        "type": "object",
+        "properties": {
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Horario": {
+        "required": [
+          "disponible",
+          "fechaFin",
+          "fechaInicio",
+          "idTutor"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idTutor": {
+            "type": "string"
+          },
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "disponible": {
+            "type": "boolean"
+          },
+          "historialReservas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reserva"
+            }
+          }
+        }
+      },
+      "SolicitudRegistro": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "correo": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "SolicitudLogin": {
+        "type": "object",
+        "properties": {
+          "nombreUsuario": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "SolicitudResena": {
+        "type": "object",
+        "properties": {
+          "idHorario": {
+            "type": "string"
+          },
+          "puntuacion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comentario": {
+            "type": "string"
+          }
+        }
+      },
+      "TutorDTO": {
+        "type": "object",
+        "properties": {
+          "idTutor": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellido": {
+            "type": "string"
+          },
+          "correo": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "fotoPerfil": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "precioHora": {
+            "type": "number",
+            "format": "double"
+          },
+          "experiencia": {
+            "type": "string"
+          },
+          "materias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Materia"
+            }
+          },
+          "califiacionPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "resenas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resena"
+            }
+          }
+        }
+      },
+      "HorarioDisponibleDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idTutor": {
+            "type": "string"
+          },
+          "tutorNombreApellido": {
+            "type": "string"
+          },
+          "precioHora": {
+            "type": "number",
+            "format": "double"
+          },
+          "califiacionPromedio": {
+            "type": "number",
+            "format": "double"
+          },
+          "materias": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Materia"
+            }
+          },
+          "fechaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaFin": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
