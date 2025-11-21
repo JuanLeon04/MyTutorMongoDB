@@ -12,3 +12,6 @@ Aplicación web para tutores y usuarios universitarios
 - Esto despliega el back y la base de datos mongo db.
 - La base de datos es creada con el administrador (no modificar nombre de usuario, solo cambiar contraseña si lo ve necesario).
 - Nombre de usuario: admin, contraseña: adminadmin.
+
+# Sobre el back
+Corriendo en el puerto 8081.
