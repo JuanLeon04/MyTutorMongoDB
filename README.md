@@ -5,13 +5,14 @@ Aplicación web para tutores y usuarios universitarios
 - Docker
 
 # Usar
+Para correr el backend con la base de datos mongodb:
 - Clonar el repositorio en el pc local.
 - ejecutar: ´docker compose up -d´
 
 # Importante
-- Esto despliega el back y la base de datos mongo db.
-- La base de datos es creada con el administrador (no modificar nombre de usuario, solo cambiar contraseña si lo ve necesario).
+- La base de datos es creada SOLO con el administrador (no modificar nombre de usuario, solo cambiar contraseña si lo ve necesario).
 - Nombre de usuario: admin, contraseña: adminadmin.
+- Debe crear nuevos usuarios para probar.
 
 # Documentacion
 Cuando tenga el back corriendo puede acceder a la documentación en local por: [http://localhost:8081/swagger-ui/index.html#/](http://localhost:8081/swagger-ui/index.html#/)
