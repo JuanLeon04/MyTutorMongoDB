@@ -67,7 +67,7 @@ public class ReservaControlador {
     // -------------------------------------------------------------------------
     // 4. Cancelar una reserva
     // -------------------------------------------------------------------------
-    @Operation(summary = "Cancelar una reserva que hizo un usuario (Solo 1 día antes)")
+    @Operation(summary = "Cancelar una reserva que hizo un usuario (Solo 1 día antes y rol tutor)")
     @PreAuthorize("hasAnyRole('ESTUDIANTE', 'TUTOR')")
     @DeleteMapping("/{idHorario}")
     public ResponseEntity<Reserva> cancelarReserva(@PathVariable String idHorario,
@@ -77,6 +77,21 @@ public class ReservaControlador {
         Reserva reservaCancelada = reservaServicio.cancelarReserva(usuarioActual, idHorario);
         return ResponseEntity.ok(reservaCancelada);
 
+    }
+
+
+    // -------------------------------------------------------------------------
+    // 4.1 Tutor cancela una reserva que un estudiante le hizo
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Que un Tutor cancele una reserva que le hicieron (Solo 1 día antes)")
+    @PreAuthorize("hasAnyRole('TUTOR')")
+    @DeleteMapping("/tutor/{idHorario}")
+    public ResponseEntity<Reserva> turorCancelaReserva(@PathVariable String idHorario,
+                                                   Authentication authentication) {
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+
+        Reserva reservaCancelada = reservaServicio.tutorCancelaReservaHecha(usuarioActual, idHorario);
+        return ResponseEntity.ok(reservaCancelada);
     }
 
 

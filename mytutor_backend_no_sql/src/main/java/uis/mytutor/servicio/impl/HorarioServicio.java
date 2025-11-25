@@ -145,6 +145,16 @@ public class HorarioServicio {
     }
 
 
+    // Obtener mis horarios como tutor
+    public List<Horario> obtenerHorariosTutor(Usuario usuarioActual) {
+        // Validar que el usuario sea TUTOR
+        if (usuarioActual.getRol() != Usuario.Rol.TUTOR || usuarioActual.getTutor() == null) {
+            throw new RuntimeException("Solo un tutor puede obtener sus horarios.");
+        }
+        return horarioRepositorio.findByIdTutor(usuarioActual.getId());
+    }
+
+
     // Que el tutor cree un horario de tutoría
     public Horario crearHorarioTutoria(Usuario usuarioActual, SolicitudHorario nuevoHorario) {
 

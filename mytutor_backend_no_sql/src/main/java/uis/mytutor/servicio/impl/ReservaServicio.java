@@ -93,6 +93,60 @@ public class ReservaServicio {
     }
 
 
+    // Que el tutor cancele una reserva que alguien le hizo
+    // Solo puede cancelar un día antes
+    //      -- LocalDateTime.now() debe ser un día antes a LocalDateTime fechaInicio en Horario)
+    // Poner en horario disponible=false y la última reserva en EstadoReserva.CANCELADA
+    public Reserva tutorCancelaReservaHecha(Usuario usuarioQueSolicita, String idHorario) {
+
+        // 1. Validar que quien solicita sea tutor
+        if (usuarioQueSolicita.getRol() != Usuario.Rol.TUTOR || usuarioQueSolicita.getTutor() == null) {
+            throw new RuntimeException("Solo un tutor puede cancelar reservas realizadas por estudiantes.");
+        }
+
+        // 2. Buscar el horario que se quiere cancelar
+        Horario horario = horarioRepositorio.findById(idHorario)
+                .orElseThrow(() -> new RuntimeException("Horario no encontrado."));
+
+        // 3. Verificar que el horario pertenece al tutor solicitante
+        if (!horario.getIdTutor().equals(usuarioQueSolicita.getId())) {
+            throw new RuntimeException("No puedes cancelar reservas de un horario que no te pertenece.");
+        }
+
+        // 4. Verificar que el horario tenga reservas
+        if (horario.getHistorialReservas() == null || horario.getHistorialReservas().isEmpty()) {
+            throw new RuntimeException("Este horario no tiene reservas para cancelar.");
+        }
+
+        // 5. Tomar la última reserva (la activa)
+        Reserva reservaActual = horario.getHistorialReservas()
+                .get(horario.getHistorialReservas().size() - 1);
+
+        // 6. Validar que la reserva esté en estado PENDIENTE
+        if (reservaActual.getEstado() != Reserva.EstadoReserva.PENDIENTE) {
+            throw new RuntimeException("Solo se pueden cancelar reservas que están en estado PENDIENTE.");
+        }
+
+        // 7. Validar que el tutor solo puede cancelar con 1 día de anticipación
+        LocalDateTime ahora = LocalDateTime.now();
+        if (ahora.isAfter(horario.getFechaInicio().minusDays(1))) {
+            throw new RuntimeException("Solo puedes cancelar una reserva con al menos 1 día de anticipación.");
+        }
+
+        // 8. Cambiar el estado de la reserva
+        reservaActual.setEstado(Reserva.EstadoReserva.CANCELADA);
+        reservaActual.setFecha(LocalDateTime.now());
+
+        // 9. Que ya no esté disponible
+        horario.setDisponible(false);
+
+        // 10. Guardar cambios en MongoDB
+        horarioRepositorio.save(horario);
+
+        return reservaActual;
+    }
+
+
 
     // Que usuario (Tanto rol ESTUDIANTE como TUTOR) cancele una reserva que hizo (EstadoReserva.CANCELADA)
     // Solo puede cancelar un día antes

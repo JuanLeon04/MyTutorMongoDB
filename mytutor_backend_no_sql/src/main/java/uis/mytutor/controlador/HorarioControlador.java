@@ -30,10 +30,23 @@ public class HorarioControlador {
     // -------------------------------------------------------------------------
     // 1. Obtener TODOS los horarios (disponibles y no disponibles)
     // -------------------------------------------------------------------------
-    @Operation(summary = "Obtener todos los horarios registrados (tutores + estado)")
+    @Operation(summary = "Obtener todos los horarios registrados (solo admin)")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/list")
     public List<Horario> obtenerTodosLosHorarios() {
         return horarioServicio.obtenerTodosLosHorarios();
+    }
+
+
+    // -------------------------------------------------------------------------
+    // 1.1 Obtener TODOS los horarios de un tutor (disponibles y no disponibles)
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Que un tutor obtenga todos sus horarios (Solo tutor)")
+    @PreAuthorize("hasRole('TUTOR')")
+    @GetMapping("/listMyHorarios")
+    public List<Horario> obtenerTodosLosHorariosDeTutor(Authentication authentication) {
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+        return horarioServicio.obtenerHorariosTutor(usuarioActual);
     }
 
 

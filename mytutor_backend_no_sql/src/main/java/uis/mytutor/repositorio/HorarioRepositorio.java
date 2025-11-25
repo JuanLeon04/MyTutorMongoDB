@@ -12,6 +12,8 @@ public interface HorarioRepositorio extends MongoRepository<Horario, String> {
 
     List<Horario> findByDisponibleTrueAndFechaInicioBefore(LocalDateTime fecha);
 
+    List<Horario> findByIdTutor(String idTutor);
+
     @Query(value = "{ 'idTutor': ?0, 'fechaInicio': { $lt: ?2 }, 'fechaFin': { $gt: ?1 } }")
     List<Horario> encontrarHorariosSolapados(String idTutor, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
