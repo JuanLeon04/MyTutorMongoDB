@@ -11,6 +11,8 @@ import uis.mytutor.dto.UsuarioDTO;
 import uis.mytutor.servicio.impl.AuthServicio;
 import uis.mytutor.servicio.impl.UsuarioServicio;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
@@ -34,4 +36,12 @@ public class AuthControlador {
     public ResponseEntity<?> register(@RequestBody SolicitudRegistro solicitud) {
         return ResponseEntity.ok(usuarioServicio.register(solicitud));
     }
+
+
+    // borrar
+    @GetMapping("/hora")
+    public LocalDateTime horaActual() {
+        return LocalDateTime.now();
+    }
+
 }
