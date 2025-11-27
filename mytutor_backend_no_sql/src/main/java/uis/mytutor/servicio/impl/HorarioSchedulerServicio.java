@@ -19,10 +19,12 @@ public class HorarioSchedulerServicio {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    private final int actualizarCada = 600000; // cada 10 minutos (600000 ms)
+
     // Servicio que revisa cada hora si un horario de tutoría ya paso
     // si este no fue resevado por nadie y está diponible
     // lo marca como no disponible para evitar errores
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = actualizarCada)
     public void actualizarHorariosExpirados() {
 
         Query query = new Query(
