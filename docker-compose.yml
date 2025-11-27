@@ -28,6 +28,7 @@ services:
       - CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
       - CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
       - CORS_ALLOW_CREDENTIALS=true
+      - ZONA_HORARIA=America/Bogota
       - MONGO_URI=mongodb://admin:admin@mytutormongodb:27017/mytutor?authSource=admin
       - MONGO_DATABASE=mytutor
       - LOGGING_MODE=DEBUG
